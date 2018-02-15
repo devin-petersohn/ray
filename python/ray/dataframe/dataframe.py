@@ -7,6 +7,27 @@ import numpy as np
 import ray
 
 
+class DFActor(object):
+
+    def __init__(self, df):
+        self._df = [_PartActor.remote(d) for d in df]
+
+    def map_partitions(self, fn):
+        return DFActor([d.compute_on_part.remote(fn) for d in self._df])
+
+@ray.remote
+class _PartActor(object):
+
+    def __init__(self, part):
+        self.part = part
+
+    def compute_on_part(self, fn, inplace=False):
+        if inplace:
+            self.part = fn(self.part)
+        else:
+            return fn(self.part)
+
+
 class DataFrame(object):
 
     def __init__(self, df, columns):
