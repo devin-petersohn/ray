@@ -4,6 +4,7 @@ from __future__ import print_function
 
 import pandas as pd
 import threading
+from .concat import concat
 
 pd_version = pd.__version__
 pd_major = int(pd_version.split(".")[0])
