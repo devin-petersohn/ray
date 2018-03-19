@@ -3,17 +3,12 @@ from __future__ import division
 from __future__ import print_function
 
 import pytest
-import numpy as np
 import pandas as pd
-import pandas.util.testing as tm
-import ray.dataframe as rdf
 import ray.concat as rc
 from ray.dataframe.utils import (
     to_pandas,
     from_pandas
 )
-
-from pandas.tests.frame.common import TestData
 
 
 @pytest.fixture
