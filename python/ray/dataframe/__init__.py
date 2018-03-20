@@ -33,7 +33,7 @@ from .series import Series  # noqa: 402
 from .io import (read_csv, read_parquet)  # noqa: 402
 
 __all__ = [
-    "DataFrame", "Series", "read_csv", "read_parquet"
+    "DataFrame", "Series", "read_csv", "read_parquet", "concat"
 ]
 
 try:

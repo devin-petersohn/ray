@@ -4,7 +4,7 @@ from __future__ import print_function
 
 import pytest
 import pandas as pd
-import ray.concat as rc
+import ray.dataframe as rdf
 from ray.dataframe.utils import (
     to_pandas,
     from_pandas
@@ -43,14 +43,15 @@ def generate_dfs():
 def test_df_concat():
     df, df2 = generate_dfs()
 
-    assert(pd.concat([df, df2]) == rc.concat([df, df2]))
+    assert(ray_df_equals_pandas(rdf.concat([df, df2]), pd.concat([df, df2])))
 
 
 def test_ray_concat():
     df, df2 = generate_dfs()
     ray_df, ray_df2 = from_pandas(df, 2), from_pandas(df2, 2)
 
-    assert(pd.concat([df, df2]) == rc.concat([ray_df, ray_df2]))
+    assert(ray_df_equals_pandas(rdf.concat([ray_df, ray_df2]),
+                                pd.concat([df, df2])))
 
 
 def test_mixed_concat():
@@ -59,7 +60,8 @@ def test_mixed_concat():
 
     mixed_dfs = [from_pandas(df, 2), from_pandas(df2, 2), df3]
 
-    assert(pd.concat([df, df2, df3]) == rc.concat(mixed_dfs))
+    assert(ray_df_equals_pandas(rdf.concat(mixed_dfs),
+                                pd.concat([df, df2, df3])))
 
 
 def test_mixed_inner_concat():
@@ -68,5 +70,5 @@ def test_mixed_inner_concat():
 
     mixed_dfs = [from_pandas(df, 2), from_pandas(df2, 2), df3]
 
-    assert(pd.concat([df, df2, df3], join="inner") ==
-           rc.concat(mixed_dfs, join="inner"))
+    assert(ray_df_equals_pandas(rdf.concat(mixed_dfs, join="inner"),
+                                pd.concat([df, df2, df3], join="inner")))

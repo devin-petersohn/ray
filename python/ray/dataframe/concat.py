@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-import ray.dataframe as rdf
+from ray import dataframe as rdf
 from .utils import (
     from_pandas,
     _deploy_func)
@@ -37,6 +37,7 @@ def concat(objs, axis=0, join='outer', join_axes=None, ignore_index=False,
                 return pdf[new_columns]
 
             def add_columns(pdf):
+                print("TYPE:", type(pdf))
                 return pdf.reindex(columns=new_columns)
 
             if axis == 0:
