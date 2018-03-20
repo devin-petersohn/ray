@@ -339,8 +339,20 @@ class DataFrame(object):
         # We did a gropuby, now we have to drop the outermost layer of the
         # grouped index to get the index we will use.
         assignments_df.index = assignments_df.index.droplevel()
-        partition_assignments = assign_partitions.remote(assignments_df,
-                                                         len(self._df))
+
+        num_partitions = len(self._df)
+        partition_assignments = np.array(assign_partitions._submit(
+            args=(assignments_df, num_partitions),
+            num_return_vals=num_partitions))
+
+        print(ray.get(partition_assignments))
+
+        from .shuffle import shuffle_task
+        from .shuffle import shuffle_post_process
+        shuffled = [shuffle_task._submit(args=(partition_assignments[:, i]),
+                                         num_return_vals=num_partitions)
+                    for i in range(num_partitions)]
+        return
         shufflers = [ShuffleActor.remote(self._df[i])
                      for i in range(len(self._df))]
 

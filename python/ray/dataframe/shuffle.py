@@ -136,3 +136,20 @@ class ShuffleActor(object):
             return func(data)
         else:
             return func(data, *args)
+
+
+@ray.remote
+def shuffle_task(num_partitions, indices_to_send, df):
+    assert num_partitions == len(indices_to_send)
+
+    return [df.loc[indices_to_send[partition]]
+            for partition in range(num_partitions)]
+
+
+@ray.remote(num_return_vals=1)
+def shuffle_post_process(dfs, axis, func, *args):
+    data = pd.concat(dfs, axis=axis)
+    if len(args) == 0:
+        return func(data)
+    else:
+        return func(data, args)

@@ -126,8 +126,7 @@ def _prepend_partitions(last_vals, index, partition, func):
 
 @ray.remote
 def assign_partitions(index_df, num_partitions):
-    uniques = index_df.index.unique()
-
+    uniques = list(index_df.index.unique())
     if len(uniques) % num_partitions == 0:
         chunksize = int(len(uniques) / num_partitions)
     else:
@@ -142,4 +141,19 @@ def assign_partitions(index_df, num_partitions):
     else:
         assignments.append(uniques)
 
-    return assignments
+    def get_local_assignment(i, j):
+        try:
+            x = index_df[index_df['partition'] == i].loc[assignments[j]]
+        except KeyError:
+            return []
+        if isinstance(x, pd.Series):
+            return list(pd.DataFrame(x).T['index_within_partition'])
+        else:
+            return list(x['index_within_partition'])
+
+
+    local_assignments = [
+        [get_local_assignment(i, j)
+         for i in range(len(assignments))] for j in range(len(assignments))]
+
+    return local_assignments
