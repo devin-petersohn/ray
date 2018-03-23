@@ -61,6 +61,12 @@ def test_ray_concat_on_index():
     assert(ray_df_equals_pandas(rdf.concat([ray_df, ray_df2], axis='index'),
                                 pd.concat([df, df2], axis='index')))
 
+    assert(ray_df_equals_pandas(rdf.concat([ray_df, ray_df2], axis='rows'),
+                                pd.concat([df, df2], axis='rows')))
+
+    assert(ray_df_equals_pandas(rdf.concat([ray_df, ray_df2], axis=0),
+                                pd.concat([df, df2], axis=0)))
+
 
 def test_ray_concat_on_column():
     df, df2 = generate_dfs()
@@ -68,6 +74,9 @@ def test_ray_concat_on_column():
 
     with pytest.raises(Exception):
         rdf.concat([ray_df, ray_df2], axis=1)
+
+    with pytest.raises(Exception):
+        rdf.concat([ray_df, ray_df2], axis="columns")
 
 
 def test_mixed_concat():
