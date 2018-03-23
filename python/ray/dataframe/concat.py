@@ -40,7 +40,7 @@ def concat(objs, axis=0, join='outer', join_axes=None, ignore_index=False,
                 print("TYPE:", type(pdf))
                 return pdf.reindex(columns=new_columns)
 
-            if axis == 0:
+            if axis == 0 or axis == 'index':
                 if join == 'inner':
                     new_f1 = [_deploy_func.remote(remove_columns, part) for
                               part in frame1._df]
