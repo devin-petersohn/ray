@@ -72,11 +72,19 @@ def test_ray_concat_on_column():
     df, df2 = generate_dfs()
     ray_df, ray_df2 = from_pandas(df, 2), from_pandas(df2, 2)
 
-    with pytest.raises(Exception):
+    with pytest.raises(NotImplementedError):
         rdf.concat([ray_df, ray_df2], axis=1)
 
-    with pytest.raises(Exception):
+    with pytest.raises(NotImplementedError):
         rdf.concat([ray_df, ray_df2], axis="columns")
+
+
+def test_invalid_axis_errors():
+    df, df2 = generate_dfs()
+    ray_df, ray_df2 = from_pandas(df, 2), from_pandas(df2, 2)
+
+    with pytest.raises(ValueError):
+        rdf.concat([ray_df, ray_df2], axis=2)
 
 
 def test_mixed_concat():

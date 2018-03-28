@@ -37,40 +37,40 @@ def concat(objs, axis=0, join='outer', join_axes=None, ignore_index=False,
                 return pdf[new_columns]
 
             def add_columns(pdf):
-                print("TYPE:", type(pdf))
                 return pdf.reindex(columns=new_columns)
 
-            if axis in [0, 'index', 'rows']:
-                if join == 'inner':
-                    new_f1 = [_deploy_func.remote(remove_columns, part) for
-                              part in frame1._df]
-                    new_f2 = [_deploy_func.remote(remove_columns, part) for
-                              part in frame2._df]
+            if join == 'inner':
+                new_f1 = [_deploy_func.remote(remove_columns, part) for
+                          part in frame1._df]
+                new_f2 = [_deploy_func.remote(remove_columns, part) for
+                          part in frame2._df]
 
-                    return rdf.DataFrame(new_f1 + new_f2, columns=new_columns,
-                                         index=frame1.index.append(
-                                                                 frame2.index))
+                return rdf.DataFrame(new_f1 + new_f2, columns=new_columns,
+                                     index=frame1.index.append(
+                                                             frame2.index))
 
-                elif join == 'outer':
-                    new_f1 = [_deploy_func.remote(add_columns, part) for
-                              part in frame1._df]
-                    new_f2 = [_deploy_func.remote(add_columns, part) for
-                              part in frame2._df]
+            elif join == 'outer':
+                new_f1 = [_deploy_func.remote(add_columns, part) for
+                          part in frame1._df]
+                new_f2 = [_deploy_func.remote(add_columns, part) for
+                          part in frame2._df]
 
-                    return rdf.DataFrame(new_f1 + new_f2, columns=new_columns,
-                                         index=frame1.index.append(
-                                                                 frame2.index))
-            else:
-                raise NotImplementedError(
-                      "Concat not implemented for axis=1. To contribute to "
-                      "Pandas on Ray, please visit github.com/ray-project/ray."
-                      )
+                return rdf.DataFrame(new_f1 + new_f2, columns=new_columns,
+                                     index=frame1.index.append(
+                                                             frame2.index))
 
     # (TODO) Group all the pandas dataframes
 
     if isinstance(objs, dict):
         raise NotImplementedError(
               "Obj as dicts not implemented. To contribute to "
+              "Pandas on Ray, please visit github.com/ray-project/ray."
+              )
+
+    axis = pd.DataFrame()._get_axis_number(axis)
+    if axis == 1:
+        raise NotImplementedError(
+              "Concat not implemented for axis=1. To contribute to "
               "Pandas on Ray, please visit github.com/ray-project/ray."
               )
 
