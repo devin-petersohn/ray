@@ -824,7 +824,7 @@ class DataFrame(object):
     def describe(self, percentiles=None, include=None, exclude=None):
         """
         Generates descriptive statistics that summarize the central tendency,
-        dispersion and shape of a dataset’s distribution, excluding NaN values.
+        dispersion and shape of a dataset`s distribution, excluding NaN values.
 
         Args:
             percentiles (list-like of numbers, optional):
@@ -1895,9 +1895,9 @@ class DataFrame(object):
 
         Args:
             q (float): 0 <= q <= 1, the quantile(s) to compute
-            axis (int): 0 or ‘index’ for row-wise,
-                        1 or ‘columns’ for column-wise
-            interpolation: {'linear’, ‘lower’, ‘higher’, ‘midpoint’, ‘nearest’}
+            axis (int): 0 or `index` for row-wise,
+                        1 or `columns` for column-wise
+            interpolation: {`linear`, `lower`, `higher`, `midpoint`, `nearest`}
                 Specifies which interpolation method to use
 
         Returns:

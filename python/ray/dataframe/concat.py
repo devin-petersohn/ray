@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from ray import dataframe as rdf
+import dataframe as rdf
 from .utils import (
     from_pandas,
     _deploy_func)
