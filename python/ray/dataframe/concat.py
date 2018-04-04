@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
-import dataframe as rdf
+#import ray.dataframe as rdf
+from .dataframe import DataFrame as rdf
 from .utils import (
     from_pandas,
     _deploy_func)
@@ -28,8 +29,8 @@ def concat(objs, axis=0, join='outer', join_axes=None, ignore_index=False,
             frame2 = from_pandas(frame2, len(frame2) / 2**16 + 1)
 
         # Case 3: Both are Ray DF
-        if isinstance(frame1, rdf.DataFrame) and \
-           isinstance(frame2, rdf.DataFrame):
+        if isinstance(frame1, rdf) and \
+           isinstance(frame2, rdf):
 
             new_columns = frame1.columns.join(frame2.columns, how=join)
 
@@ -45,7 +46,7 @@ def concat(objs, axis=0, join='outer', join_axes=None, ignore_index=False,
                 new_f2 = [_deploy_func.remote(remove_columns, part) for
                           part in frame2._df]
 
-                return rdf.DataFrame(new_f1 + new_f2, columns=new_columns,
+                return rdf(new_f1 + new_f2, columns=new_columns,
                                      index=frame1.index.append(
                                                              frame2.index))
 
@@ -55,7 +56,7 @@ def concat(objs, axis=0, join='outer', join_axes=None, ignore_index=False,
                 new_f2 = [_deploy_func.remote(add_columns, part) for
                           part in frame2._df]
 
-                return rdf.DataFrame(new_f1 + new_f2, columns=new_columns,
+                return rdf(new_f1 + new_f2, columns=new_columns,
                                      index=frame1.index.append(
                                                              frame2.index))
 
