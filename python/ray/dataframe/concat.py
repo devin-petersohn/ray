@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-#import ray.dataframe as rdf
 from .dataframe import DataFrame as rdf
 from .utils import (
     from_pandas,
@@ -47,8 +46,7 @@ def concat(objs, axis=0, join='outer', join_axes=None, ignore_index=False,
                           part in frame2._df]
 
                 return rdf(new_f1 + new_f2, columns=new_columns,
-                                     index=frame1.index.append(
-                                                             frame2.index))
+                           index=frame1.index.append(frame2.index))
 
             elif join == 'outer':
                 new_f1 = [_deploy_func.remote(add_columns, part) for
@@ -57,8 +55,7 @@ def concat(objs, axis=0, join='outer', join_axes=None, ignore_index=False,
                           part in frame2._df]
 
                 return rdf(new_f1 + new_f2, columns=new_columns,
-                                     index=frame1.index.append(
-                                                             frame2.index))
+                           index=frame1.index.append(frame2.index))
 
     # (TODO) Group all the pandas dataframes
 
