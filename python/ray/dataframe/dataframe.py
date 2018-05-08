@@ -47,6 +47,11 @@ from .utils import (
 from . import get_npartitions
 from .index_metadata import _IndexMetadata
 
+import time
+from os.path import expanduser
+home = expanduser("~")
+logfile = open(home + "/__pandas_on_ray_test__.txt", "a")
+
 
 @_inherit_docstrings(pd.DataFrame)
 class DataFrame(object):
@@ -4706,6 +4711,13 @@ class DataFrame(object):
             if key in self.columns:
                 return self[key]
             raise e
+
+    def __getattribute__(self, key):
+        if key[0] != "_" or key[1] == "_":
+            logfile.write(str(key) + "\t" + str(time.time()) + "\n")
+            logfile.flush()
+
+        return object.__getattribute__(self, key)
 
     def __setitem__(self, key, value):
         if not isinstance(key, str):
