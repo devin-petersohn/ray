@@ -4,7 +4,6 @@ from __future__ import print_function
 
 import pytest
 import sys
-import os
 import ray  # noqa F401
 # try:
 #
@@ -20,8 +19,9 @@ def test_modin_import():
     # The import must be here because python2 is not supported yet
     try:
         import modin.pandas as pd
+
+        frame_data = [1, 2, 3, 4, 5, 6, 7, 8]
+        frame = pd.DataFrame(frame_data)
+        assert frame.sum().squeeze() == sum(frame_data)
     except ModuleNotFoundError:
         raise ValueError(sys.path)
-    frame_data = [1, 2, 3, 4, 5, 6, 7, 8]
-    frame = pd.DataFrame(frame_data)
-    assert frame.sum().squeeze() == sum(frame_data)
