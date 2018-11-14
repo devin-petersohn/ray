@@ -7,7 +7,7 @@ import sys
 import os
 import ray  # noqa F401
 try:
-    raise ValueError(os.path)
+    raise ValueError(sys.path)
     import modin.pandas as pd
 except ImportError:
     if sys.version_info[0] == 3:
