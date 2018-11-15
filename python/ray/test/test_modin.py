@@ -12,9 +12,6 @@ import ray  # noqa F401
 #     if sys.version_info[0] == 3:
 #         raise
 
-
-@pytest.mark.skipif(
-    , reason="Modin is not imported in Python2")
 def test_modin_import():
     # The import must be here because python2 is not supported yet
     if sys.version_info[0] < 3:
