@@ -125,7 +125,6 @@ install:
 
 script:
   - export PATH="$HOME/miniconda/bin:$PATH"
-  - export PATH="`pwd`/python/ray/modin:$PATH"
   # The following is needed so cloudpickle can find some of the
   # class definitions: The main module of tests that are run
   # with pytest have the same name as the test file -- and this

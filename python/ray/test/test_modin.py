@@ -13,7 +13,7 @@ def test_modin_import():
         try:
             import modin.pandas as pd
         except:
-            raise ValueError(sys.path)
+            raise ValueError("Path: {} \n Ray file: {}".format(sys.path, ray.__file__))
         frame_data = [1, 2, 3, 4, 5, 6, 7, 8]
         frame = pd.DataFrame(frame_data)
         assert frame.sum().squeeze() == sum(frame_data)
