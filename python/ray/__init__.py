@@ -50,7 +50,7 @@ except ImportError as e:
 # For simplicity, we will only import modin in python3 environments.
 if sys.version_info[0] == 3:
     modin_path = os.path.join(
-        os.path.abspath(os.path.dirname(__file__)), "modin")
+        os.path.abspath(os.path.dirname(__file__)), "modin/modin")
     sys.path.insert(0, modin_path)
 
 from ray.raylet import ObjectID, _config  # noqa: E402
