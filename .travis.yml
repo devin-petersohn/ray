@@ -130,6 +130,7 @@ script:
   # with pytest have the same name as the test file -- and this
   # module is only found if the test directory is in the PYTHONPATH.
   - export PYTHONPATH="$PYTHONPATH:./test/"
+  - export PYTHONPATH="`pwd`/python/ray/modin/:$PYTHONPATH"
 
 #  - python -m pytest -v python/ray/test/test_global_state.py
 #  - python -m pytest -v python/ray/test/test_queue.py
