@@ -11,6 +11,7 @@ def test_modin_import():
     if sys.version_info[0] == 3:
         import ray
         try:
+            import pyarrow as pa
             import modin.pandas as pd
         except:
             raise ValueError("Path: {} \n Ray file: {}".format(sys.path, ray.__file__))
