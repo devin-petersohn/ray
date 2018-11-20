@@ -125,51 +125,52 @@ install:
 
 script:
   - export PATH="$HOME/miniconda/bin:$PATH"
+  - export PATH="`pwd`/python/ray/modin:$PATH"
   # The following is needed so cloudpickle can find some of the
   # class definitions: The main module of tests that are run
   # with pytest have the same name as the test file -- and this
   # module is only found if the test directory is in the PYTHONPATH.
   - export PYTHONPATH="$PYTHONPATH:./test/"
 
-  - python -m pytest -v python/ray/test/test_global_state.py
-  - python -m pytest -v python/ray/test/test_queue.py
-  - python -m pytest -v python/ray/test/test_ray_init.py
-  - python -m pytest -v test/xray_test.py
-
-  - python -m pytest -v test/runtest.py
-  - python -m pytest -v test/array_test.py
-  - python -m pytest -v test/actor_test.py
-  - python -m pytest -v test/autoscaler_test.py
-  - python -m pytest -v test/tensorflow_test.py
-  - python -m pytest -v test/failure_test.py
-  - python -m pytest -v test/microbenchmarks.py
-  - python -m pytest -v test/stress_tests.py
-  - python -m pytest -v test/component_failures_test.py
-  - python -m pytest -v test/multi_node_test.py
-  - python -m pytest -v test/multi_node_test_2.py
-  - python -m pytest -v test/recursion_test.py
-  - python -m pytest -v test/monitor_test.py
-  - python -m pytest -v test/cython_test.py
-  - python -m pytest -v test/credis_test.py
-  - python -m pytest -v test/node_manager_test.py
-
-  # ray tune tests
-  - python python/ray/tune/test/dependency_test.py
-  - python -m pytest -v python/ray/tune/test/trial_runner_test.py
-  - python -m pytest -v python/ray/tune/test/trial_scheduler_test.py
-  - python -m pytest -v python/ray/tune/test/experiment_test.py
-  - python -m pytest -v python/ray/tune/test/tune_server_test.py
-  - python -m pytest -v python/ray/tune/test/ray_trial_executor_test.py
-  - python -m pytest -v python/ray/tune/test/automl_searcher_test.py
-
-  # ray rllib tests
-  - python -m pytest -v python/ray/rllib/test/test_catalog.py
-  - python -m pytest -v python/ray/rllib/test/test_filters.py
-  - python -m pytest -v python/ray/rllib/test/test_optimizers.py
-  - python -m pytest -v python/ray/rllib/test/test_evaluators.py
-
-  # ray temp file tests
-  - python -m pytest -v test/tempfile_test.py
+#  - python -m pytest -v python/ray/test/test_global_state.py
+#  - python -m pytest -v python/ray/test/test_queue.py
+#  - python -m pytest -v python/ray/test/test_ray_init.py
+#  - python -m pytest -v test/xray_test.py
+#
+#  - python -m pytest -v test/runtest.py
+#  - python -m pytest -v test/array_test.py
+#  - python -m pytest -v test/actor_test.py
+#  - python -m pytest -v test/autoscaler_test.py
+#  - python -m pytest -v test/tensorflow_test.py
+#  - python -m pytest -v test/failure_test.py
+#  - python -m pytest -v test/microbenchmarks.py
+#  - python -m pytest -v test/stress_tests.py
+#  - python -m pytest -v test/component_failures_test.py
+#  - python -m pytest -v test/multi_node_test.py
+#  - python -m pytest -v test/multi_node_test_2.py
+#  - python -m pytest -v test/recursion_test.py
+#  - python -m pytest -v test/monitor_test.py
+#  - python -m pytest -v test/cython_test.py
+#  - python -m pytest -v test/credis_test.py
+#  - python -m pytest -v test/node_manager_test.py
+#
+#   ray tune tests
+#  - python python/ray/tune/test/dependency_test.py
+#  - python -m pytest -v python/ray/tune/test/trial_runner_test.py
+#  - python -m pytest -v python/ray/tune/test/trial_scheduler_test.py
+#  - python -m pytest -v python/ray/tune/test/experiment_test.py
+#  - python -m pytest -v python/ray/tune/test/tune_server_test.py
+#  - python -m pytest -v python/ray/tune/test/ray_trial_executor_test.py
+#  - python -m pytest -v python/ray/tune/test/automl_searcher_test.py
+#
+#   ray rllib tests
+#  - python -m pytest -v python/ray/rllib/test/test_catalog.py
+#  - python -m pytest -v python/ray/rllib/test/test_filters.py
+#  - python -m pytest -v python/ray/rllib/test/test_optimizers.py
+#  - python -m pytest -v python/ray/rllib/test/test_evaluators.py
+#
+#   ray temp file tests
+#  - python -m pytest -v test/tempfile_test.py
 
   # modin test files
   - python python/ray/test/test_modin.py
